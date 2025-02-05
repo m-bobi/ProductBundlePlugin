@@ -1,0 +1,39 @@
+<div class="sw-product-detail-bundle">
+   <sw-card title="Bundle Products">
+      <sw-entity-single-select
+         :value="selectedProduct ? selectedProduct.id : null"
+         @update:value="onProductSelect"
+         entity="product"
+         label="Select Product"
+         />
+      <sw-button @click="onAddProduct">Add to Bundle</sw-button>
+      <sw-data-grid
+         v-if="assignedProducts.length > 0"
+         :data-source="assignedProducts"
+         :columns="[
+         { property: 'product.name', label: 'Product' },
+         { property: 'quantity', label: 'Quantity' }
+         ]"
+         >
+         <template #column-quantity="{ item }">
+            <sw-number-field
+               v-model="item.quantity"
+               :min="1"
+               @change="bundleAssignedProductsRepository.save(item, Shopware.Context.api)"
+               />
+         </template>
+         <template #actions="{ item }">
+            <sw-context-menu-item
+               variant="danger"
+               @click="deleteProduct(item)"
+               >
+               Delete
+            </sw-context-menu-item>
+         </template>
+      </sw-data-grid>
+      <sw-empty-state
+         v-else
+         title="No products in bundle"
+         />
+   </sw-card>
+</div>

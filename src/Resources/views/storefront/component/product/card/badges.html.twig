@@ -1,0 +1,5 @@
+{% if product.extensions.productBundle is defined and product.extensions.productBundle.active %}
+    <span class="badge badge--product-bundle">
+        {{ "Product Bundle"|trans }}
+    </span>
+{% endif %}
